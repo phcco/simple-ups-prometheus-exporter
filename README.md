@@ -54,14 +54,14 @@ python3 simple-ups-exporter.py --source apcaccess
 curl http://localhost:8300/
 
 # Check help for more options
-./venv/bin/python3 s-ups-exporter.py --help
+./venv/bin/python3 simple-ups-exporter.py --help
 ```
 
 Now configure your Prometheus to scrape the port 8300 at your will
 
 ## Security
 
-UPS tools require usually require root permissions to run. Use `--metrics-uid` to select a different user ID for the expose metric port.
+UPS tools require `root` to run. Use `--metrics-uid` to select a different user ID for exposed metric port.
 
 ## Installing as service
 
