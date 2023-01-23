@@ -25,8 +25,11 @@ pwrstat -status
 # or APC
 apcaccess
 
-# If any tool above fail, check your UPS driver installation
+# If both tools above fail, check your UPS driver installation
 ```
+
+> Make sure to use `--source apcaccess` or  `--source pwrstat` to select which tool you wish to use
+
 Now install the environment and run the exporter...
 
 ```bash
