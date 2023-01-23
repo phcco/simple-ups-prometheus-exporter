@@ -64,7 +64,7 @@ def metrics(q):
         os.setuid(int(args.uid))
 
     prometheus_client.start_http_server(int(args.port), args.host)
-    print("UPS metrics exporter listening at {}:{}".format(args.host, args.port))
+    print("UPS metrics exporter listening on {}:{} using {}".format(args.host, args.port, args.source))
     while True:
         res = q.get()
         if "ups_usage_pct" in res and res["ups_usage_pct"] != None:
