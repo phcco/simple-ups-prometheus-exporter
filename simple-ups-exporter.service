@@ -1,0 +1,22 @@
+[Unit]
+Description=Simple UPS exporter
+After=network.target
+StartLimitIntervalSec=0
+[Service]
+Type=simple
+Restart=always
+RestartSec=5
+# RUN AS ROOT, and set the metrics user using --metrics-uid
+User=root
+#
+# Make sure to set  --source pwrstat
+# and  --metrics-uid 33 (33 is commonly used for www-data, you can use any other non root user)
+#
+# If using venv
+ExecStart=/path/where/you/cloned/simple-ups-prometheus-exporter/venv/bin/python3 /path/where/you/cloned/simple-ups-prometheus-exporter/simple-ups-exporter.py --metrics-uid 33 --source pwrstat
+
+# If not using venv
+#ExecStart=/usr/bin/env python3 /path/where/you/cloned/simple-ups-prometheus-exporter/simple-ups-exporter.py --metrics-uid 33 --source pwrstat
+
+[Install]
+WantedBy=multi-user.target

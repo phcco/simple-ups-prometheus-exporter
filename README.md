@@ -62,4 +62,19 @@ UPS tools require usually require root permissions to run. Use `--metrics-uid` t
 
 ## Installing as service
 
-> TBD
+Copy `simple-ups-exporter.service` to `/etc/systemd/system/simple-ups-exporter.service`
+
+Then fix `ExecStart` paths... then:
+
+```bash
+# Start it
+systemctl start simple-ups-exporter
+
+# ... check if everything is good
+curl http://localhost:8300/
+
+# Enable at boot
+systemctl enable simple-ups-exporter
+```
+
+If you don't get anything at port 8300, check `journalctl -f`.
