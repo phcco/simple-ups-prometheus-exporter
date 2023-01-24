@@ -55,6 +55,12 @@ parser.add_argument(
     help="Source tool for metrics",
     choices=["apcaccess", "pwrstat"],
 )
+parser.add_argument(
+    "--max-watt",
+    dest="max_watt",
+    default=None,
+    help="Set an artificial max wattage (for apcaccess)",
+)
 
 args = parser.parse_args()
 
@@ -64,11 +70,17 @@ def metrics(q):
         os.setuid(int(args.uid))
 
     prometheus_client.start_http_server(int(args.port), args.host)
-    print("UPS metrics exporter listening on {}:{} using {}".format(args.host, args.port, args.source))
+    print(
+        "UPS metrics exporter listening on {}:{} using {}".format(
+            args.host, args.port, args.source
+        )
+    )
     while True:
         res = q.get()
         if "ups_usage_pct" in res and res["ups_usage_pct"] != None:
             ups_usage_pct.set(res["ups_usage_pct"])
+            if args.max_watt:
+                ups_usage_watt.set(int(args.max_watt) * res["ups_usage_pct"] / 100)
         if "ups_usage_watt" in res and res["ups_usage_watt"] != None:
             ups_usage_watt.set(res["ups_usage_watt"])
         if "ups_time_left" in res and res["ups_time_left"] != None:
